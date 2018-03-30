@@ -35,18 +35,18 @@ inline void getwritenum(const char * event, std::istream & inObj, std::ostream &
 	outObj << event << ":" << dummy << delim;
 }
 
-string toJSON(string filename, const char * market, const char * rawdatapath, const char * jobdatapath, int filenum)
+string toJSON(string filename, const char * rawdatapath, const char * jobdatapath, int filenum)
 {
 	// Declare file input and output objects
 	ifstream fin;
 	ofstream fout;
 
 	// Associate file output object with an output file
-	string outfile = string(jobdatapath) + string("/") + string(market) + string("/") + std::to_string(filenum) + string(".json");
+	string outfile = string(jobdatapath) + string("/") + std::to_string(filenum) + string(".json");
 	fout.open(outfile);
 	
 	// Associate file input object with an input file
-	string infile = string(rawdatapath) + string("/") + string(market) + string("/") + filename;
+	string infile = string(rawdatapath) + string("/") + filename;
 	fin.open(infile);
 
 	// Remove header from input stream
@@ -56,10 +56,8 @@ string toJSON(string filename, const char * market, const char * rawdatapath, co
 	string Date, Time, gmtOffset, DateTime;
 
 	// Read input from input file and write it to output json file
-	if(string(market) != "B3")
+	while(fin.good())
 	{
-		while(fin.good())
-		{
 			fout << "{";
 			//getwrite("RIC", fin, fout, ','); // Get and write RIC
 
@@ -83,44 +81,8 @@ string toJSON(string filename, const char * market, const char * rawdatapath, co
 
 			// Remove excess data from input stream
 			getline(fin, dummy);
-		}
 	}
-	else
-	{
-		while(fin.good())
-		{
-			fout << "{";
-			//getwrite("RIC", fin, fout, ','); // Get and write RIC
-
-			// Get date time and write to file
-			getline(fin, Date, ',');
-			getline(fin, Time, ',');
-			getline(fin, gmtOffset, ',');
-			DateTime = toISO(Date, Time, gmtOffset);
-			fout << "DateTime:" << "{$date:" << "\""<< DateTime << "\"" << "}" << ",";
-
-			// Get transaction an quote prices and volumes and write to json file
-			getwrite("Type", fin, fout, ',');
-			getline(fin, dummy, ','); // Remove "EX/Cntrb.ID" from input stream
-			getwritenum("Price", fin, fout, ',');
-			getwritenum("Volume", fin, fout, ',');
-			getline(fin, dummy, ','); // Remove "Market VWAP" from input stream
-			getline(fin, dummy, ','); // Remove "Buyer ID" from input stream
-			getwritenum("BidPrice", fin, fout, ',');
-			getwritenum("BidVolume", fin, fout, ',');
-			getline(fin, dummy, ','); // Remove "No. Buyer" from input stream
-			getline(fin, dummy, ','); // Remove "Seller ID" from input stream
-			getwritenum("AskPrice", fin, fout, ',');
-			getwritenum("AskVolume", fin, fout, '}');
-			fout << '\n';
-
-			// Remove excess data from input stream
-			getline(fin, dummy);
-		}
-	}
-
-	fin.close();
-	//remove(infile.c_str());
+	
 	
 	fout.close();
 	

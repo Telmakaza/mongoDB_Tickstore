@@ -4,16 +4,15 @@ import sys
 from multiprocessing import Pool
 
 # Take user input
-Market = sys.argv[1]
-datafilepath = sys.argv[2]
+datafilepath = sys.argv[1]
 
 # Set data path and get files in directory
-datafilepath = datafilepath + '/' + Market
 filenames = os.listdir(datafilepath)
 
 # Import files in parallel
 def mongoimportcmd(filename):
-    exstr = "mongoimport -d BRICSData2 -c " + Market + "Transactions " + "--type json --file " + datafilepath + "/" +filename
+    exstr = "mongoimport -d BRICSData -c testTransactions  --type json --file " + datafilepath + "/" + filename
+    print(exstr)
     os.system(exstr)
     fullfilename = datafilepath + "/" + filename
     #os.remove(fullfilename)

@@ -3,13 +3,11 @@ import os
 import sys
 
 # Get file names
-Market = sys.argv[1];
-datafilepath = sys.argv[2] + "/" + Market;
-#datafilepath = 'C:/TRTH/RawData/' + Market
+datafilepath = sys.argv[1];
 filenames = os.listdir(datafilepath)
 
 # Write file names to text files
-fobj = open('filenames' + Market + '.txt', 'w')
+fobj = open(datafilepath + '/filenames.txt', 'w')
 for name in filenames:
 	fobj.write(name + "\n")
 
