@@ -16,9 +16,9 @@ struct datafilenames
 };
 
 // Prototye functions
-datafilenames getfilenames(const char *, const char *, const char *);
+datafilenames getfilenames(const char * sourcepath, const char * rawdatapath);
 string & toISO(string &, string &, string &);
-string toJSON(string, const char *, const char *, const char *, int);
+string toJSON(string filename, const char * rawdatapath, const char * jobdatapath, int filenum);
 void toMongo(string, const char *);
 
 #endif

@@ -2,24 +2,16 @@
 import os
 from multiprocessing import Pool
 
-exchanges = ["BSE"]
-sourcepath = input("Please enter the path to the DataEngineering folder: ")
+sourcepath = input("Please enter the path to the mongoDB_Tickstore repo: ")
 print("-------------------------------------------------------------")
-print("Thank you. Two more user inputs needed.")
 rawdatapath = input("Please enter the path to the raw data folder: ")
 print("------------------------------------------------------------------")
-print("Thank you. One more user input needed. Please enter the directory in which job data will be stored (and subsequently deleted).")
+print("Enter the directory in which job data must be stored (and subsequently deleted).")
 jobdatapath = input("This needs to be an empty folder: ")
 print("-------------------------------------------------------------")
-print("Thank you. All user inputs taken. Please wait for your data to be processed...")
+print("All user inputs succesfully taken. Please wait for data to be processed...")
 
-def importmarketdata(market):
-    os.system(sourcepath + "/DataEngineering/bin/main " + market + " " + sourcepath + " " + rawdatapath + " " + jobdatapath) 
-
-if __name__ == '__main__':
-    with Pool(3) as p:
-        p.map(importmarketdata, exchanges)
-
+os.system(sourcepath + "/mongoDB_Tickstore/bin/main " + " " + sourcepath + " " + rawdatapath + " " + jobdatapath) 
 
 print("-----------------------------------------------------------")
 print("Data importation process complete.")

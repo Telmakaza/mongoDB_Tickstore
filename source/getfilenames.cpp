@@ -9,24 +9,22 @@ using std::ofstream;
 using std::string;
 
 
-datafilenames getfilenames(const char * Market, const char * sourcepath, const char * rawdatapath)
+datafilenames getfilenames(const char * sourcepath, const char * rawdatapath)
 {
 	// Allocate memory space
 	char exstr[1024];
 
 	// Copy execution string to allocated memory space
-	//strcpy(exstr, "python3 C:/Users/MSS_Master/Documents/DataEngineering/source/getfilenames.py "); 
 	strcpy(exstr, "python3 ");
 	strcat(exstr, sourcepath);
-	strcat(exstr, "/DataEngineering/source/getfilenames.py ");
-	strcat(exstr, Market);
+	strcat(exstr, "/mongoDB_Tickstore/source/getfilenames.py ");
 	strcat(exstr, " ");
 	strcat(exstr, rawdatapath);
 	system(exstr);
 
 	// Read file names from input file
 	ifstream infnames;
-	string file_on_sys = string("filenames") + Market + string(".txt");
+	string file_on_sys = string(rawdatapath) + string("/filenames.txt");
 	infnames.open(file_on_sys);
 
 	// Count number of files and store names
